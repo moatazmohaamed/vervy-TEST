@@ -1,0 +1,224 @@
+/* You can add global styles to this file, and also import other style files */
+ @plugin "daisyui" {
+   themes:false;
+ }
+@import "tailwindcss";
+
+  /* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Tailwind v4 theme tokens */
+@theme {
+  --color-primary: #F8BBD0; /* Modern Pink */
+  --color-primary-rgb: 248, 187, 208;
+  --color-accent: #EC407A; /* Vibrant Rose */
+  --color-accent-rgb: 236, 64, 122;
+  --color-background: #FAFAFA; /* Light Gray */
+  --color-background-rgb: 250, 250, 250;
+  --color-secondary: #B39DDB; /* Modern Lavender */
+  --color-secondary-rgb: 179, 157, 219;
+  --color-text: #424242; /* Dark Gray */
+  --color-text-rgb: 66, 66, 66;
+  --color-success: #66BB6A; /* Green */
+  --color-success-rgb: 102, 187, 106;
+  --color-warning: #FFCA28; /* Amber */
+  --color-warning-rgb: 255, 202, 40;
+  --color-error: #EF5350; /* Red */
+  --color-error-rgb: 239, 83, 80;
+
+  --font-display: "Playfair Display", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* Base styles */
+html, body {
+  @apply bg-background text-text font-sans;
+}
+
+:root {
+  color-scheme: light;
+}
+
+/* Remove underlines from all links */
+a {
+  text-decoration: none;
+}
+
+/* Typography */
+
+h2, .h2 {
+  @apply font-display text-3xl md:text-4xl font-bold leading-tight;
+}
+
+h3, .h3 {
+  @apply font-display text-2xl md:text-3xl font-semibold leading-tight;
+}
+
+h4, .h4 {
+  @apply font-display text-xl md:text-2xl font-semibold leading-snug;
+}
+
+
+.text-gradient {
+  color: var(--color-accent); /* Fallback solid color */
+  background-image: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  will-change: transform;
+  transform: translateZ(0); /* Hardware acceleration */
+}
+
+/* Reusable utilities */
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium text-white shadow-md transition-all duration-200 ease-out active:scale-95;
+  background-image: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium text-text bg-white border border-accent/20 shadow-sm transition-all duration-200 ease-out hover:bg-accent/10 active:scale-95;
+}
+
+.btn-primary:focus-visible, .btn-secondary:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-accent/60;
+}
+
+/* Icon styles */
+.icon {
+  @apply inline-block w-5 h-5;
+}
+
+.icon-sm {
+  @apply w-4 h-4;
+}
+
+.icon-lg {
+  @apply w-6 h-6;
+}
+
+.icon-btn {
+  @apply inline-flex items-center justify-center p-2 rounded-full transition-colors duration-200;
+}
+
+.icon-btn-primary {
+  @apply bg-accent/10 text-accent hover:bg-accent/20;
+}
+
+.icon-btn-secondary {
+  @apply bg-secondary/10 text-secondary hover:bg-secondary/20;
+}
+
+.card {
+  @apply rounded-2xl bg-white shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-md;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.badge {
+  @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-medium shadow-sm;
+}
+
+.badge-accent {
+  @apply bg-accent text-white;
+}
+
+.badge-secondary {
+  @apply bg-secondary/80 text-white;
+}
+
+.badge-success {
+  @apply bg-success/10 text-success;
+}
+
+/* Layout and spacing utilities */
+.section {
+  @apply py-12 md:py-16;
+}
+
+.section-title {
+  @apply mb-8 md:mb-12;
+}
+
+.container-custom {
+  @apply px-4 mx-auto max-w-7xl sm:px-6 lg:px-8;
+}
+
+.grid-products {
+  @apply grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.flex-between {
+  @apply flex items-center justify-between;
+}
+
+.space-y-custom {
+  @apply space-y-6 md:space-y-8;
+}
+
+/* Responsive utilities */
+.hide-mobile {
+  @apply hidden md:block;
+}
+
+.hide-desktop {
+  @apply block md:hidden;
+}
+
+.responsive-padding {
+  @apply px-4 sm:px-6 md:px-8;
+}
+
+.responsive-margin {
+  @apply my-4 sm:my-6 md:my-8;
+}
+
+/* Background patterns */
+.bg-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Section dividers */
+.section-divider {
+  @apply h-px w-full bg-gradient-to-r from-transparent via-accent/30 to-transparent my-0;
+}
+
+/* Responsive text */
+.responsive-text {
+  @apply text-sm sm:text-base md:text-lg;
+}
+
+/* Media query helper classes */
+@media (max-width: 640px) {
+  .container-custom {
+    @apply px-4;
+  }
+
+  .card, .product-card {
+    @apply rounded-xl;
+  }
+
+  .section {
+    @apply py-8;
+  }
+}
+
+/* Modern card hover effect */
+.product-card {
+  @apply overflow-hidden;
+}
+
+.product-card img {
+  @apply transition-transform duration-300 ease-out;
+}
+
+.product-card:hover img {
+  @apply scale-105;
+}
+
+.active-nav{
+@apply bg-pink-400 p-2 rounded-md text-white;
+}
+

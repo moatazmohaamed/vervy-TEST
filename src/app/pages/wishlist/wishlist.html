@@ -1,0 +1,76 @@
+<div class="container max-w-6xl mx-auto px-4 py-8">
+  <h1 class="font-display text-4xl  font-bold mb-4 text-accent text-center">My Wishlist</h1>
+  <div class="w-24 h-1 bg-primary mx-auto mb-8"></div>
+
+  <!-- Empty Wishlist State -->
+  @if (wishlistItems().length === 0) {
+  <div class="bg-[#FFF6F8] rounded-2xl shadow-md p-8 text-center">
+    <div class="flex flex-col items-center justify-center py-12">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#FFB6C1] mb-4" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      </svg>
+      <h2 class="font-serif text-xl text-[#7A6E6E] mb-2">Your wishlist is empty</h2>
+      <p class="text-[#7A6E6E] mb-6">Browse our products and add your favorites to your wishlist</p>
+      <a routerLink="/products"
+        class="bg-[#FFDDE6] hover:bg-[#FFB6C1] text-[#7A6E6E] font-medium py-2 px-6 rounded-full transition-colors">
+        Browse Products
+      </a>
+    </div>
+  </div>
+  }
+
+  <!-- Wishlist Items -->
+  @if (wishlistItems().length > 0) {
+  <div class="grid grid-cols-1 gap-6">
+    <!-- Wishlist Items -->
+    <div class="bg-[#FFF6F8] rounded-2xl shadow-md p-6">
+      @for (item of wishlistItems(); track item.id) {
+      <div
+        class="flex flex-col sm:flex-row items-center gap-4 p-4 bg-white rounded-xl mb-4 shadow-sm hover:shadow-md transition-shadow">
+        <!-- Product Image -->
+        <div class="relative w-full sm:w-32 h-32 overflow-hidden rounded-lg">
+          <img [ngSrc]="item.image_url" width="128" height="128" [alt]="item.name" class="w-full h-full object-cover"
+            priority="low" />
+
+          <!-- Badges -->
+          @if (item.isNew) {
+          <span
+            class="absolute top-2 left-2 bg-[#E8DAFF] text-[#7A6E6E] text-xs font-medium px-2 py-1 rounded-full">New</span>
+          }
+          @if (item.isBestSeller) {
+          <span class="absolute top-2 right-2 bg-[#FFB6C1] text-white text-xs font-medium px-2 py-1 rounded-full">Best
+            Seller</span>
+          }
+        </div>
+
+        <!-- Product Info -->
+        <div class="flex-1 flex flex-col sm:flex-row items-center sm:items-start justify-between w-full">
+          <div class="text-center sm:text-left mb-4 sm:mb-0">
+            <h3 class="font-serif text-lg font-medium text-[#7A6E6E]">{{ item.name }}</h3>
+            <p class="text-sm text-[#7A6E6E] mb-2">{{ item.description }}</p>
+            <p class="font-medium text-[#7A6E6E]">${{ item.price.toFixed(2) }}</p>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button (click)="addToCart(item)"
+              class="bg-[#FFDDE6] hover:bg-[#FFB6C1] text-[#7A6E6E] font-medium py-2 px-4 rounded-full transition-colors">
+              Add to Cart
+            </button>
+            <button (click)="removeFromWishlist(item.id)"
+              class="bg-white border border-[#FFB6C1] hover:bg-[#FFF6F8] text-[#7A6E6E] font-medium py-2 px-4 rounded-full transition-colors">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- Summary -->
+
+  </div>
+  }
+</div>

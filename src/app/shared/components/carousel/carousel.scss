@@ -1,0 +1,48 @@
+/* Hero entrance animation: fade in + slight slide-up */
+@keyframes heroFadeUp {
+	0% {
+		opacity: 0;
+		transform: translateY(18px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.hero-entrance {
+	animation: heroFadeUp 1200ms cubic-bezier(.22,.9,.35,1) both;
+}
+
+/* Optionally stagger child elements if needed (small helper) */
+.hero-entrance .stagger-1 { animation-delay: 120ms; }
+.hero-entrance .stagger-2 { animation-delay: 240ms; }
+.hero-entrance .stagger-3 { animation-delay: 360ms; }
+
+.bg-vervy{
+	/* Hero background image — full cover */
+	background-image: url('/assets/gloss.jpg');
+	background-size: contain;
+	background-position: center center;
+	position: relative;
+
+	/* Ensure children position context when using overlay pseudo-element */
+	&::before{
+		content: '';
+		position: absolute;
+		inset: 0;
+		/* subtle dark gradient for contrast */
+		background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.22) 40%, rgba(0,0,0,0.28) 100%);
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	/* make sure direct children appear above overlay */
+	> * { position: relative; z-index: 1; }
+}
+
+	/* improve text contrast on background hero image */
+	.hero-text-contrast {
+		color: #fff;
+		text-shadow: 0 6px 18px rgba(0,0,0,0.35);
+	}

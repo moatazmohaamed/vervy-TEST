@@ -1,0 +1,140 @@
+<div class="container mx-auto px-4 py-12 md:py-16">
+  <!-- Hero Section -->
+  <section class="mb-16">
+    <div class="flex flex-col items-center text-center">
+      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl mb-6 text-accent">{{ sections.intro.title }}</h1>
+      <div class="w-24 h-1 bg-primary mb-8"></div>
+      <p class="text-lg md:text-xl max-w-3xl">{{ sections.intro.content }}</p>
+    </div>
+  </section>
+
+  <!-- Journey Section -->
+  <section class="mb-16 bg-background/50 rounded-2xl p-8 shadow-sm">
+    <div class="flex flex-col md:flex-row gap-8 items-center">
+      <div class="md:w-1/2">
+        <img ngSrc="/assets/vervy.jpg" alt="Vervy beauty products" width="600" height="400"
+          class="rounded-xl shadow-md object-cover w-full h-80" priority />
+      </div>
+      <div class="md:w-1/2">
+        <h2 class="font-display text-3xl mb-4 text-text">{{ sections.journey.title }}</h2>
+        <div class="w-16 h-1 bg-primary mb-6"></div>
+        <p class="text-text/90">{{ sections.journey.content }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Vision Section -->
+  <section class="mb-16 grid md:grid-cols-2 gap-8">
+    <div class="bg-primary/10 p-8 rounded-2xl">
+      <h2 class="font-display text-2xl mb-4">{{ sections.mission.title }}</h2>
+      <div class="w-12 h-1 bg-primary mb-4"></div>
+      <p>{{ sections.mission.content }}</p>
+    </div>
+    <div class="bg-secondary/10 p-8 rounded-2xl">
+      <h2 class="font-display text-2xl mb-4">{{ sections.vision.title }}</h2>
+      <div class="w-12 h-1 bg-secondary mb-4"></div>
+      <p>{{ sections.vision.content }}</p>
+    </div>
+  </section>
+
+  <section class="mb-8">
+    <div class="text-center mb-8">
+      <h2 class="font-display text-3xl mb-4">{{ sections.ingredients.title }}</h2>
+      <div class="w-16 h-1 bg-primary mx-auto mb-6"></div>
+      <p class="max-w-3xl mx-auto mb-4">{{ sections.ingredients.content }}</p>
+      <p class="max-w-3xl mx-auto">{{ sections.ingredients.description }}</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 mt-12">
+      <div class="bg-background/50 p-8 rounded-2xl shadow-sm">
+        <h3 class="font-display text-2xl mb-4">{{ sections.ingredients.reasons.title }}</h3>
+        <div class="w-12 h-1 bg-primary mb-6"></div>
+        <ul class="space-y-4">
+          @for (point of sections.ingredients.reasons.points; track $index) {
+          <li class="flex items-start">
+            <span class="inline-block w-6 h-6 rounded-full bg-primary/30 flex-shrink-0 mr-3 mt-1"></span>
+            <span>{{ point }}</span>
+          </li>
+          }
+        </ul>
+      </div>
+
+      <div class="bg-background/50 p-8 rounded-2xl shadow-sm">
+        <h3 class="font-display text-2xl mb-4">{{ sections.ingredients.examples.title }}</h3>
+        <div class="w-12 h-1 bg-secondary mb-6"></div>
+        <ul class="space-y-4 mb-6">
+          @for (example of sections.ingredients.examples.points; track $index) {
+          <li class="flex items-start">
+            <span class="inline-block w-6 h-6 rounded-full bg-secondary/30 flex-shrink-0 mr-3 mt-1"></span>
+            <span>{{ example }}</span>
+          </li>
+          }
+        </ul>
+        <p class="italic text-text/80 mt-6">{{ sections.ingredients.examples.conclusion }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy Section -->
+  <section class="mb-16">
+    <div class="text-center mb-8">
+      <h2 class="font-display text-3xl mb-4">{{ sections.philosophy.title }}</h2>
+      <div class="w-16 h-1 bg-primary mx-auto mb-6"></div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      @for (point of sections.philosophy.points; track $index) {
+      <div class="p-6 bg-background rounded-xl shadow-sm hover:shadow-md transition-shadow">
+        <p class="text-center">{{ point }}</p>
+      </div>
+      }
+    </div>
+  </section>
+
+  <!-- Promise Section -->
+  <section class="mb-16 bg-accent/5 p-8 rounded-2xl">
+    <div class="text-center mb-8">
+      <h2 class="font-display text-3xl mb-4">{{ sections.promise.title }}</h2>
+      <div class="w-16 h-1 bg-accent mx-auto mb-6"></div>
+      <p class="text-lg mb-8">{{ sections.promise.intro }}</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+      @for (point of sections.promise.points; track $index) {
+      <div class="flex items-center justify-center p-6 bg-white rounded-xl shadow-sm">
+        <p class="text-center font-medium">{{ point }}</p>
+      </div>
+      }
+    </div>
+    <p class="text-center text-lg italic">{{ sections.promise.conclusion }}</p>
+  </section>
+
+  <!-- Values Section -->
+  <section class="mb-16">
+    <div class="text-center mb-8">
+      <h2 class="font-display text-3xl mb-4">{{ sections.values.title }}</h2>
+      <div class="w-16 h-1 bg-primary mx-auto mb-6"></div>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (value of sections.values.points; track $index) {
+      <div class="p-6 bg-background rounded-xl shadow-sm hover:shadow-md transition-shadow">
+        <p>{{ value }}</p>
+      </div>
+      }
+    </div>
+  </section>
+
+  <!-- Ingredients Section -->
+
+
+  <!-- CTA Section -->
+  <section class="mt-16 text-center">
+    <div class="bg-gradient-to-r from-primary/30 to-secondary/30 p-8 md:p-12 rounded-2xl">
+      <h2 class="font-display text-3xl mb-6">Ready to experience Vervy?</h2>
+      <p class="text-lg mb-8 max-w-2xl mx-auto">Discover our range of lip glosses and balms that combine beauty with
+        care.</p>
+      <a routerLink="/products"
+        class="inline-block px-8 py-3 bg-accent text-white rounded-full hover:bg-accent/90 transition-colors font-medium">
+        Shop Now
+      </a>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,143 @@
+<!-- Product Details Page with Responsive Layout -->
+<div class="container max-w-6xl mx-auto px-4 py-8">
+  @if (product(); as product) {
+  <div class="flex flex-col md:flex-row gap-8 py-12">
+    <!-- Left Side: Image Carousel -->
+    <div class="w-full md:w-1/2">
+      <!-- Main Image -->
+      <div class="relative overflow-hidden rounded-lg bg-white shadow-md mb-4 h-[300px]">
+        <img [ngSrc]="productImages()[currentImageIndex()]" [alt]="product.name"
+          class="w-full h-full object-cover transition-opacity duration-300" width="600" height="600" priority />
+
+        <!-- Carousel Controls -->
+        <div class="absolute inset-0 flex items-center justify-between px-4">
+          <button (click)="prevImage()"
+            class="bg-white/70 hover:bg-white text-[#7A6E6E] rounded-full p-2 shadow-md transition-colors"
+            aria-label="Previous image">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button (click)="nextImage()"
+            class="bg-white/70 hover:bg-white text-[#7A6E6E] rounded-full p-2 shadow-md transition-colors"
+            aria-label="Next image">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Thumbnail Navigation -->
+      <div class="grid grid-cols-4 gap-2">
+        @for (image of productImages(); track $index) {
+        <button (click)="setImage($index)" class="h-20 overflow-hidden rounded-md border-2 transition-all"
+          [class.border-[#FFB6C1]]="currentImageIndex() === $index"
+          [class.border-transparent]="currentImageIndex() !== $index">
+          <img [src]="image" [alt]="'Thumbnail ' + ($index + 1)" class="h-full w-full object-cover" />
+        </button>
+        }
+      </div>
+    </div>
+
+    <!-- Right Side: Product Information -->
+    <div class="w-full md:w-1/2">
+      <!-- Product Badges -->
+      <div class="flex gap-2 mb-3">
+        @if (product.isNew) {
+        <span class="bg-[#E8DAFF] text-[#7A6E6E] text-xs font-medium px-3 py-1 rounded-full">New</span>
+        }
+        @if (product.isBestSeller) {
+        <span class="bg-[#FFB6C1] text-white text-xs font-medium px-3 py-1 rounded-full">Best Seller</span>
+        }
+      </div>
+
+      <!-- Product Title -->
+      <h1 class="font-serif text-3xl font-medium text-[#7A6E6E] mb-2">{{ product.name }}</h1>
+
+      <!-- Product Price -->
+      <p class="text-2xl font-medium text-[#7A6E6E] mb-4">${{ product.price.toFixed(2) }}</p>
+
+      <!-- Product Description -->
+      <div class="mb-6">
+        <p class="font-serif text-2xl font-medium text-[#7A6E6E] mb-2">Description</p>
+        <p class="text-[#7A6E6E] leading-relaxed">{{ product.description }}</p>
+      </div>
+
+
+      <!-- Quantity Selector -->
+      <div class="mb-6">
+        <p class="font-serif text-2xl font-medium text-[#7A6E6E] mb-2">Quantity</p>
+        <div class="flex items-center">
+          <button (click)="decreaseQuantity()"
+            class="bg-[#FFF6F8] hover:bg-[#FFDDE6] text-[#7A6E6E] w-10 h-10 flex items-center justify-center rounded-l-lg border border-[#FFDDE6] transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+            </svg>
+          </button>
+          <div
+            class="w-12 h-10 flex items-center justify-center border-t border-b border-[#FFDDE6] bg-white text-[#7A6E6E]">
+            {{ quantity() }}
+          </div>
+          <button (click)="increaseQuantity()"
+            class="bg-[#FFF6F8] hover:bg-[#FFDDE6] text-[#7A6E6E] w-10 h-10 flex items-center justify-center rounded-r-lg border border-[#FFDDE6] transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Stock Information -->
+      <div class="mb-6">
+        <p class="text-[#7A6E6E]">
+          <span class="font-medium">Availability:</span>
+          @if (product.stock > 0) {
+          <span class="text-green-600">In Stock ({{ product.stock }} available)</span>
+          } @else {
+          <span class="text-red-600">Out of Stock</span>
+          }
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4">
+        <button (click)="addToCart()"
+          class="bg-[#FFDDE6] hover:bg-[#FFB6C1] text-[#7A6E6E] font-medium py-3 px-6 rounded-full transition-colors flex-1"
+          [disabled]="product.stock <= 0" [class.opacity-50]="product.stock <= 0">
+          Add to Cart
+        </button>
+        <button (click)="toggleWishlist()"
+          class="border border-[#FFDDE6] hover:bg-[#FFF6F8] text-[#7A6E6E] font-medium py-3 px-6 rounded-full transition-colors flex items-center justify-center">
+          @if (isInWishlist()) {
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-[#FFB6C1]" viewBox="0 0 20 20"
+            fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+              clip-rule="evenodd" />
+          </svg>
+          Remove from Wishlist
+          } @else {
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          Add to Wishlist
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+  } @else {
+  <!-- Loading or Not Found State -->
+  <div class="flex flex-col items-center justify-center py-12">
+    <div class="w-16 h-16 border-4 border-t-[#FFB6C1] border-[#FFDDE6] rounded-full animate-spin mb-4"></div>
+    <p class="text-[#7A6E6E] text-lg">Loading product details...</p>
+  </div>
+  }
+</div>

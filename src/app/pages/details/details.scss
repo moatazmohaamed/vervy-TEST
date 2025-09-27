@@ -1,0 +1,54 @@
+// Product Details Page Styles
+
+// Carousel transition effects
+.carousel-image {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+// Thumbnail hover effect
+.thumbnail {
+  &:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+  }
+}
+
+// Button hover transitions
+button {
+  transition: all 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Quantity selector focus styles
+.quantity-input:focus {
+  outline: none;
+  border-color: #FFB6C1;
+  box-shadow: 0 0 0 2px rgba(255, 182, 193, 0.2);
+}
+
+// Image zoom effect on hover
+.product-image-container {
+  overflow: hidden;
+  
+  img {
+    transition: transform 0.5s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .product-details-container {
+    flex-direction: column;
+  }
+}

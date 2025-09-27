@@ -1,0 +1,88 @@
+<div class="container max-w-6xl mx-auto px-4 py-8">
+
+  <!-- Filters Section -->
+  <div class="bg-[#FFF6F8] rounded-lg p-6 mb-8 shadow-md">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      <!-- Category Filter -->
+      <div>
+        <h3 class="font-serif text-lg mb-3 text-[#7A6E6E]">Categories</h3>
+        <div class="flex flex-wrap gap-2">
+          @for (category of categories(); track category) {
+          <button [class]="selectedCategory() === category 
+                ? 'px-4 py-2 rounded-full bg-[#FFDDE6] text-[#7A6E6E] font-medium transition-all' 
+                : 'px-4 py-2 rounded-full bg-white text-[#7A6E6E] hover:bg-[#FFB6C1] transition-all'"
+            (click)="updateCategory(category)">
+            {{ category }}
+          </button>
+          }
+        </div>
+      </div>
+
+
+      <!-- Sort Options -->
+      <div>
+        <h3 class="font-serif text-lg mb-3 text-[#7A6E6E]">Sort By</h3>
+        <select (change)="updateSortOption($event)"
+          class="w-full p-2 rounded-full border border-[#E8DAFF] focus:outline-none focus:ring-2 focus:ring-[#FFB6C1] bg-white text-[#7A6E6E]">
+          <option value="default">Featured</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="best-sellers">Best Sellers</option>
+          <option value="new-arrivals">New Arrivals</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 py-8 mb-8">
+    @for (product of filteredProducts(); track product.id) {
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden transition-transform hover:scale-[1.03] group">
+      <!-- Product Image -->
+      <div class="relative h-64 overflow-hidden">
+        <img [src]="product.image_url" [alt]="product.name" class="w-full h-full object-cover">
+
+        <!-- Badges -->
+        @if (product.isNew) {
+        <span
+          class="absolute top-2 left-2 bg-[#E8DAFF] text-[#7A6E6E] text-xs font-medium px-2 py-1 rounded-full">New</span>
+        }
+        @if (product.isBestSeller) {
+        <span class="absolute top-2 right-2 bg-[#FFB6C1] text-white text-xs font-medium px-2 py-1 rounded-full">Best
+          Seller</span>
+        }
+
+        <!-- Quick Add Button -->
+        <div
+          class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <button (click)="addToCart(product)"
+            class="bg-[#FFDDE6] hover:bg-[#FFB6C1] text-[#7A6E6E] font-medium py-2 px-4 rounded-full transition-colors">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="p-4">
+        <h3 class="font-serif text-lg font-medium text-[#7A6E6E] mb-1">{{ product.name }}</h3>
+        <p class="text-sm text-[#7A6E6E] mb-2 line-clamp-2">{{ product.description }}</p>
+        <div class="flex justify-between items-center">
+          <span class="font-medium text-[#7A6E6E]">${{ product.price.toFixed(2) }}</span>
+          <span class="text-sm text-[#7A6E6E]">{{ product.category }}</span>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <!-- Empty State -->
+  @if (filteredProducts().length === 0) {
+  <div class="text-center py-12">
+    <p class="text-xl text-[#7A6E6E]">No products match your filters.</p>
+    <button (click)="updateCategory('All')"
+      class="mt-4 bg-[#FFDDE6] hover:bg-[#FFB6C1] text-[#7A6E6E] font-medium py-2 px-6 rounded-full transition-colors">
+      Reset Filters
+    </button>
+  </div>
+  }
+</div>

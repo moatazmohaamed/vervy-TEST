@@ -1,0 +1,82 @@
+<section class="bg-gradient-to-b from-primary-light/10 to-background py-12 px-4 md:px-8 lg:px-16 min-h-screen">
+
+  <div class="max-w-3xl mx-auto bg-background/50 p-6 md:p-8 rounded-2xl shadow-lg mb-8 checkout-confirmation">
+    <div class="text-center mb-8">
+      <!-- Success badge (copy anywhere) -->
+      <div class="inline-flex items-center justify-center">
+        <svg role="img" aria-label="Success" class="w-20 h-20 md:w-24 md:h-24 transform transition hover:scale-105"
+          viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g-success" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#FF5CA8" />
+              <stop offset="1" stop-color="#FF9A6B" />
+            </linearGradient>
+          </defs>
+
+          <!-- outer ping (subtle animated glow) -->
+          <circle cx="50" cy="50" r="44" class="fill-none" />
+          <g class="pointer-events-none">
+            <circle cx="50" cy="50" r="44" fill="url(#g-success)" opacity="0.18" class="animate-pulse" />
+          </g>
+
+          <!-- solid badge -->
+          <circle cx="50" cy="50" r="36" fill="url(#g-success)" class="shadow-[0_10px_25px_rgba(255,90,120,0.14)]" />
+
+          <!-- white inner ring -->
+          <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2" />
+
+          <!-- checkmark / logo -->
+          <path d="M34 50.5 L45.5 62 L68 38" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round"
+            stroke-linejoin="round" class="stroke-current text-white" />
+
+          <!-- optional small sparkle -->
+          <g transform="translate(74,24) rotate(15)">
+            <rect x="-1.5" y="-5" width="3" height="10" rx="1" fill="rgba(255,255,255,0.22)" />
+            <rect x="-5" y="-1.5" width="10" height="3" rx="1" fill="rgba(255,255,255,0.22)" />
+          </g>
+        </svg>
+      </div>
+
+      <h2 class="text-2xl font-bold  mb-2 text-accent">Order Confirmed!</h2>
+      <p class="text-gray-600 mb-2">Thank you for your order. Your order number is:</p>
+      <p class="text-xl font-semibold  text-accent">{{ orderNumber() }}</p>
+    </div>
+
+    <div class="border-t border-gray-200 pt-6 mb-6">
+      <h3 class="text-lg font-semibold mb-4">Order Summary</h3>
+      <div class="space-y-4">
+        <div *ngFor="let item of cartService.items()" class="flex justify-between">
+          <span>{{ item.product.name }} × {{ item.quantity }}</span>
+          <span>${{ formatPrice(item.product.price * item.quantity) }}</span>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-200 mt-4 pt-4">
+        <div class="flex justify-between mb-2">
+          <span>Subtotal</span>
+          <span>${{ formatPrice(cartService.subtotal()) }}</span>
+        </div>
+        <div class="flex justify-between mb-2">
+          <span>Delivery</span>
+          <span>${{ formatPrice(cartService.tax()) }}</span>
+        </div>
+        <div class="flex justify-between font-semibold">
+          <span>Total</span>
+          <span>${{ formatPrice(cartService.total()) }}</span>
+        </div>
+        <div class="flex justify-between mt-2 text-success">
+          <span>Payment Method</span>
+          <span>Cash on Delivery</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <a routerLink="/" class="btn-primary hover:scale-105 w-full">
+        Return to Home
+      </a>
+    </div>
+  </div>
+
+
+</section>

@@ -1,0 +1,52 @@
+<footer class="bg-white py-12 border-t border-pink-100">
+  <div class="container mx-auto px-6 max-w-6xl">
+    <div class="grid grid-cols-1 md:grid-cols-2">
+      <!-- Left Column - Logo and Info -->
+      <div class="flex flex-col space-y-4">
+        <div class="flex items-center">
+          <img src="/assets/vervy.jpg" alt="Vervy" class="h-16 mb-2">
+          <h2 class="text-2xl font-light ml-2 text-gray-700">Vervy</h2>
+        </div>
+        <p class="text-sm text-gray-500">
+          info@vervy-beauty.com
+        </p>
+      </div>
+
+      <!-- Right Column - Links and Newsletter -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Information Links -->
+        <div>
+          <h3 class="text-base font-medium text-gray-800 mb-4">Information</h3>
+          <ul class="space-y-3">
+            <li><a routerLink="/"
+                class="text-pink-700 hover:text-pink-400 transition-colors duration-300 text-sm">Home</a>
+            </li>
+            <li><a routerLink="/contact" class="hover:text-pink-400 transition-colors duration-300 text-sm">Contact
+                Us</a></li>
+            <li><a href="#FAQ" class="hover:text-pink-400 transition-colors duration-300 text-sm">FAQ's</a>
+            </li>
+            <li><a routerLink="/about" class="hover:text-pink-400 transition-colors duration-300 text-sm">About</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Newsletter -->
+        <div>
+          <h3 class="text-base font-medium text-gray-800 mb-4">Newsletter</h3>
+          <p class="text-sm text-gray-500 mb-4">Get instant updates about our new products and special promos!</p>
+          <form class="flex flex-col space-y-3">
+            <input type="email" placeholder="Enter your email here"
+              class="px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-300 text-sm">
+            <button type="submit"
+              class="bg-pink-300 hover:bg-pink-400 text-white py-2 px-4 rounded-md transition-colors duration-300 text-sm uppercase tracking-wide">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="mt-12 pt-6 border-t border-gray-100 text-center">
+      <p class="text-sm text-gray-500">© 2025 Vervy - All Rights reserved!</p>
+    </div>
+  </div>
+</footer>
