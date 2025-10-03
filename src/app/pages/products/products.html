@@ -42,7 +42,7 @@
       <div class="relative h-64 overflow-hidden">
         <a routerLink="/products/{{product.id}}">
 
-          <img [src]="product.productImg" [alt]="product.name"
+          <img loading="lazy" [src]="product.productImg" [alt]="product.name"
             class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110">
         </a>
 
