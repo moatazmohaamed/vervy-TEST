@@ -141,7 +141,7 @@
           <!-- Product Image -->
           <div class="relative h-64 overflow-hidden">
             <a routerLink="/products/{{product.id}}">
-              <img [src]="product.productImg" [alt]="product.name"
+              <img loading="lazy" [src]="product.productImg" [alt]="product.name"
                 class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110">
             </a>
 
@@ -154,14 +154,18 @@
           <!-- Product Info -->
           <div class="p-5 flex flex-col flex-grow">
             <div class="flex justify-between items-start mb-3">
-              <h3 class="font-serif !text-md font-medium text-[#7A6E6E] hover:text-[#FFB6C1] transition-colors h-14 overflow-hidden">{{ product.name}}</h3>
-              <span class="font-medium text-[#7A6E6E] bg-[#FFF6F8] px-3 py-1 rounded-full whitespace-nowrap ml-2">{{ formatEGYPrice(product.price) }}</span>
+              <h3
+                class="font-serif !text-md font-medium text-[#7A6E6E] hover:text-[#FFB6C1] transition-colors h-14 overflow-hidden">
+                {{ product.name}}</h3>
+              <span class="font-medium text-[#7A6E6E] bg-[#FFF6F8] px-3 py-1 rounded-full whitespace-nowrap ml-2">{{
+                formatEGYPrice(product.price) }}</span>
             </div>
 
             <p class="text-sm text-[#7A6E6E] mb-4 line-clamp-2 leading-relaxed flex-grow">{{ product.description }}</p>
 
             <div class="flex flex-wrap gap-2 mb-4">
-              <span class="text-xs bg-[#FFF6F8] text-[#7A6E6E] px-3 py-1.5 rounded-full font-medium">{{ product.category }}</span>
+              <span class="text-xs bg-[#FFF6F8] text-[#7A6E6E] px-3 py-1.5 rounded-full font-medium">{{ product.category
+                }}</span>
             </div>
 
             <div class="flex justify-between items-center mt-auto">

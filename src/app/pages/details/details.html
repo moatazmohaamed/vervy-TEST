@@ -31,7 +31,7 @@
     <div class="w-full md:w-1/2">
       <!-- Main Image -->
       <div class="relative overflow-hidden rounded-lg bg-white shadow-md mb-4 h-[25rem]">
-        <img [src]="productImages()[currentImageIndex()]" [alt]="product.name"
+        <img loading="lazy" [src]="productImages()[currentImageIndex()]" [alt]="product.name"
           class="w-full h-full object-contain transition-opacity duration-300" priority />
 
         <!-- Carousel Controls -->
@@ -61,7 +61,7 @@
         <button (click)="setImage($index)" class="h-20 overflow-hidden rounded-md border-2 transition-all"
           [class.border-[#FFB6C1]]="currentImageIndex() === $index"
           [class.border-transparent]="currentImageIndex() !== $index">
-          <img [src]="image" [alt]="'Thumbnail ' + ($index + 1)" class="h-full w-full object-cover" />
+          <img loading="lazy" [src]="image" [alt]="'Thumbnail ' + ($index + 1)" class="h-full w-full object-cover" />
         </button>
         }
       </div>
