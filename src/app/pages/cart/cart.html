@@ -3,122 +3,109 @@
   <div class="w-24 h-1 bg-primary mx-auto mb-8"></div>
 
   @if (cartService.items().length === 0) {
-    <div class="text-center py-16">
-      <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-      </svg>
-      <h2 class="text-2xl font-medium mb-4">Your cart is empty</h2>
-      <p class="text-gray-600 mb-8">Looks like you haven't added any products to your cart yet.</p>
-      <a routerLink="/products" class="bg-accent text-white font-medium py-2 px-6 rounded-full hover:bg-accent/90 transition-colors">
-        Browse Products
-      </a>
-    </div>
+  <div class="text-center py-16">
+    <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+      </path>
+    </svg>
+    <h2 class="text-2xl font-medium mb-4">Your cart is empty</h2>
+    <p class="text-gray-600 mb-8">Looks like you haven't added any products to your cart yet.</p>
+    <a routerLink="/products"
+      class="bg-accent text-white font-medium py-2 px-6 rounded-full hover:bg-accent/90 transition-colors">
+      Browse Products
+    </a>
+  </div>
   } @else {
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Cart Items -->
-      <div class="lg:col-span-2">
-        <div class="bg-background/50 rounded-2xl shadow-sm p-6">
-          <h2 class="font-display text-2xl mb-6">Cart Items ({{cartService.totalItems()}})</h2>
-          
-          <div class="divide-y divide-gray-200">
-            @for (item of cartService.items(); track item.product.id) {
-              <div class="py-6 flex flex-col sm:flex-row items-start sm:items-center">
-                <!-- Product Image -->
-                <div class="w-full sm:w-24 h-24 mb-4 sm:mb-0 flex-shrink-0">
-                  <img 
-                    [ngSrc]="item.product.image_url" 
-                    width="96" 
-                    height="96" 
-                    class="w-full h-full object-cover rounded-lg" 
-                    [alt]="item.product.name"
-                  >
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Cart Items -->
+    <div class="lg:col-span-2">
+      <div class="bg-background/50 rounded-2xl shadow-sm p-6">
+        <h2 class="font-display text-2xl mb-6">Cart Items ({{cartService.totalItems()}})</h2>
+
+        <div class="divide-y divide-gray-200">
+          @for (item of cartService.items(); track item.product.id) {
+          <div class="py-6 flex flex-col sm:flex-row items-start sm:items-center">
+            <!-- Product Image -->
+            <div class="w-full sm:w-24 h-24 mb-4 sm:mb-0 flex-shrink-0">
+              <img [ngSrc]="item.product.productImg" width="96" height="96"
+                class="w-full h-full object-cover rounded-lg" [alt]="item.product.name">
+            </div>
+
+            <!-- Product Details -->
+            <div class="sm:ml-6 flex-grow">
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div>
+                  <h3 class="text-lg font-medium">{{item.product.name}}</h3>
+                  <p class="text-sm text-gray-500">{{item.product.category}}</p>
                 </div>
-                
-                <!-- Product Details -->
-                <div class="sm:ml-6 flex-grow">
-                  <div class="flex flex-col sm:flex-row sm:justify-between">
-                    <div>
-                      <h3 class="text-lg font-medium">{{item.product.name}}</h3>
-                      <p class="text-sm text-gray-500">{{item.product.category}}</p>
-                    </div>
-                    <div class="mt-2 sm:mt-0">
-                      <p class="font-medium">${{formatPrice(item.product.price * item.quantity)}}</p>
-                      <p class="text-sm text-gray-500">${{formatPrice(item.product.price)}} each</p>
-                    </div>
-                  </div>
-                  
-                  <!-- Quantity Controls -->
-                  <div class="mt-4 flex justify-between items-center">
-                    <div class="flex items-center">
-                      <button 
-                        (click)="updateQuantity(item.product.id, item.quantity - 1)"
-                        class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
-                        aria-label="Decrease quantity"
-                      >
-                        <span class="text-lg">-</span>
-                      </button>
-                      <span class="mx-4 w-6 text-center">{{item.quantity}}</span>
-                      <button 
-                        (click)="updateQuantity(item.product.id, item.quantity + 1)"
-                        class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
-                        aria-label="Increase quantity"
-                      >
-                        <span class="text-lg">+</span>
-                      </button>
-                    </div>
-                    
-                    <button 
-                      (click)="removeItem(item.product.id)"
-                      class="text-sm text-red-500 hover:text-red-700 transition-colors"
-                      aria-label="Remove item"
-                    >
-                      Remove
-                    </button>
-                  </div>
+                <div class="mt-2 sm:mt-0">
+                  <p class="font-medium">${{formatPrice(item.product.price * item.quantity)}}</p>
+                  <p class="text-sm text-gray-500">${{formatPrice(item.product.price)}} each</p>
                 </div>
               </div>
-            }
-          </div>
-        </div>
-      </div>
-      
-      <!-- Order Summary -->
-      <div class="lg:col-span-1">
-        <div class="bg-background/50 rounded-2xl shadow-sm p-6 sticky top-4">
-          <h2 class="font-display text-2xl mb-6">Order Summary</h2>
-          
-          <div class="space-y-4">
-            <div class="flex justify-between">
-              <span>Subtotal</span>
-              <span>${{formatPrice(cartService.subtotal())}}</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Tax (7%)</span>
-              <span>${{formatPrice(cartService.tax())}}</span>
-            </div>
-            <div class="border-t border-gray-200 pt-4 mt-4">
-              <div class="flex justify-between font-medium">
-                <span>Total</span>
-                <span>${{formatPrice(cartService.total())}}</span>
+
+              <!-- Quantity Controls -->
+              <div class="mt-4 flex justify-between items-center">
+                <div class="flex items-center">
+                  <button (click)="updateQuantity(item.product.id, item.quantity - 1)"
+                    class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                    aria-label="Decrease quantity">
+                    <span class="text-lg">-</span>
+                  </button>
+                  <span class="mx-4 w-6 text-center">{{item.quantity}}</span>
+                  <button (click)="updateQuantity(item.product.id, item.quantity + 1)"
+                    class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                    aria-label="Increase quantity">
+                    <span class="text-lg">+</span>
+                  </button>
+                </div>
+
+                <button (click)="removeItem(item.product.id)"
+                  class="text-sm text-red-500 hover:text-red-700 transition-colors" aria-label="Remove item">
+                  Remove
+                </button>
               </div>
             </div>
-            
-            <a 
-              routerLink="/checkout" 
-              class="mt-6 w-full bg-accent text-white font-medium py-3 px-4 rounded-full hover:bg-accent/90 transition-colors flex items-center justify-center"
-            >
-              Proceed to Checkout
-            </a>
-            
-            <a 
-              routerLink="/products" 
-              class="mt-4 w-full bg-transparent border border-gray-300 text-gray-700 font-medium py-3 px-4 rounded-full hover:bg-gray-50 transition-colors flex items-center justify-center"
-            >
-              Continue Shopping
-            </a>
           </div>
+          }
         </div>
       </div>
     </div>
+
+    <!-- Order Summary -->
+    <div class="lg:col-span-1">
+      <div class="bg-background/50 rounded-2xl shadow-sm p-6 sticky top-4">
+        <h2 class="font-display text-2xl mb-6">Order Summary</h2>
+
+        <div class="space-y-4">
+          <div class="flex justify-between">
+            <span>Subtotal</span>
+            <span>${{formatPrice(cartService.subtotal())}}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Tax (7%)</span>
+            <span>${{formatPrice(cartService.tax())}}</span>
+          </div>
+          <div class="border-t border-gray-200 pt-4 mt-4">
+            <div class="flex justify-between font-medium">
+              <span>Total</span>
+              <span>${{formatPrice(cartService.total())}}</span>
+            </div>
+          </div>
+
+          <a routerLink="/checkout"
+            class="mt-6 w-full bg-accent text-white font-medium py-3 px-4 rounded-full hover:bg-accent/90 transition-colors flex items-center justify-center">
+            Proceed to Checkout
+          </a>
+
+          <a routerLink="/products"
+            class="mt-4 w-full bg-transparent border border-gray-300 text-gray-700 font-medium py-3 px-4 rounded-full hover:bg-gray-50 transition-colors flex items-center justify-center">
+            Continue Shopping
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
   }
 </div>

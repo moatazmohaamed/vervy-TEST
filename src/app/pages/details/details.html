@@ -1,13 +1,38 @@
 <!-- Product Details Page with Responsive Layout -->
 <div class="container max-w-6xl mx-auto px-4 py-8">
+  <nav class="mb-6" aria-label="Breadcrumb">
+    <ol class="flex items-center space-x-2 text-sm text-[#7A6E6E]">
+      <li>
+        <a routerLink="/" class="hover:text-[#FFB6C1] transition-colors">Home</a>
+      </li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </li>
+      <li>
+        <a routerLink="/products" class="hover:text-[#FFB6C1] transition-colors">Products</a>
+      </li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </li>
+      <li>
+        <span class="text-[#FFB6C1] font-medium">{{ product()?.name || 'Product' }}</span>
+      </li>
+    </ol>
+  </nav>
+
+
   @if (product(); as product) {
   <div class="flex flex-col md:flex-row gap-8 py-12">
     <!-- Left Side: Image Carousel -->
     <div class="w-full md:w-1/2">
       <!-- Main Image -->
-      <div class="relative overflow-hidden rounded-lg bg-white shadow-md mb-4 h-[300px]">
-        <img [ngSrc]="productImages()[currentImageIndex()]" [alt]="product.name"
-          class="w-full h-full object-cover transition-opacity duration-300" width="600" height="600" priority />
+      <div class="relative overflow-hidden rounded-lg bg-white shadow-md mb-4 h-[25rem]">
+        <img [src]="productImages()[currentImageIndex()]" [alt]="product.name"
+          class="w-full h-full object-contain transition-opacity duration-300" priority />
 
         <!-- Carousel Controls -->
         <div class="absolute inset-0 flex items-center justify-between px-4">
@@ -58,7 +83,7 @@
       <h1 class="font-serif text-3xl font-medium text-[#7A6E6E] mb-2">{{ product.name }}</h1>
 
       <!-- Product Price -->
-      <p class="text-2xl font-medium text-[#7A6E6E] mb-4">${{ product.price.toFixed(2) }}</p>
+      <p class="text-2xl font-medium text-[#7A6E6E] mb-4">{{ formatEGYPrice(product.price) }}</p>
 
       <!-- Product Description -->
       <div class="mb-6">
@@ -97,7 +122,7 @@
         <p class="text-[#7A6E6E]">
           <span class="font-medium">Availability:</span>
           @if (product.stock > 0) {
-          <span class="text-green-600">In Stock ({{ product.stock }} available)</span>
+          <span class="text-green-600">In Stock</span>
           } @else {
           <span class="text-red-600">Out of Stock</span>
           }

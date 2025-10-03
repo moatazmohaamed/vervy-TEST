@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { IProduct } from '../../shared/interfaces/IProducts';
-import { MOCK_PRODUCTS, MockProduct } from '../../shared/data/mock-products';
+import { ProductsService } from '../../core/services/products/products-service';
 
 @Component({
   selector: 'app-products',
@@ -15,12 +15,25 @@ import { MOCK_PRODUCTS, MockProduct } from '../../shared/data/mock-products';
 })
 export class Products {
   // Product data
-  private productsSignal = signal<MockProduct[]>(MOCK_PRODUCTS);
+  private productsSignal = signal<IProduct[]>([]);
+  productService = inject(ProductsService);
+
+  ngOnInit(): void {
+    // Fetch products from Supabase
+    this.productService.getProducts().subscribe({
+      next: (products: IProduct[]) => {
+        console.log('Products fetched from Supabase:', products);
+        this.productsSignal.set(products);
+      },
+      error: (error) => {
+        console.error('Error fetching products:', error);
+      },
+    });
+  }
 
   // Filter states
   categories = signal<string[]>(['All', 'Lip Gloss', 'Lip Balm', 'Accessories']);
   selectedCategory = signal<string>('All');
-  priceRange = signal<number>(50);
   sortOption = signal<string>('default');
 
   // Computed products based on filters
@@ -32,9 +45,6 @@ export class Products {
       filtered = filtered.filter((p) => p.category === this.selectedCategory());
     }
 
-    // Filter by price
-    filtered = filtered.filter((p) => p.price <= this.priceRange());
-
     // Sort products
     switch (this.sortOption()) {
       case 'price-low':
@@ -43,11 +53,11 @@ export class Products {
       case 'price-high':
         filtered.sort((a, b) => b.price - a.price);
         break;
-      case 'best-sellers':
-        filtered.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
-        break;
       case 'new-arrivals':
         filtered.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+        break;
+      case 'best-sellers':
+        filtered.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
         break;
       default:
         break;
@@ -63,7 +73,6 @@ export class Products {
 
   updatePriceRange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.priceRange.set(Number(input.value));
   }
 
   updateSortOption(event: Event): void {
@@ -72,12 +81,21 @@ export class Products {
   }
 
   // Helper methods
-  getMaxPrice(): number {
-    return Math.max(...this.productsSignal().map((p) => p.price));
+  formatEGYPrice(price: number): string {
+    return new Intl.NumberFormat('EG', {
+      style: 'currency',
+      currency: 'EGP',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(price);
   }
 
   addToCart(product: IProduct): void {
-    console.log('Added to cart:', product);
+    alert('Added to cart: ' + product.name);
     // This would be connected to a cart service in a real implementation
+  }
+  addToWishlist(product: IProduct): void {
+    alert('Added to wishlist: ' + product.name);
+    // This would be connected to a wishlist service in a real implementation
   }
 }

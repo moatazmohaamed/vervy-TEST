@@ -1,9 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MOCK_PRODUCTS } from '../../shared/data/mock-products';
+import { RouterLink, RouterModule } from '@angular/router';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card';
 import { CarouselComponent } from '../../shared/components/carousel/carousel';
+import { ProductsService } from '../../core/services/products/products-service';
+import { IProduct } from '../../shared/interfaces/IProducts';
 
 interface FaqItem {
   question: string;
@@ -13,7 +21,7 @@ interface FaqItem {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, ProductCardComponent, CarouselComponent],
+  imports: [CommonModule, RouterLink, CarouselComponent],
   templateUrl: './home.html',
   styleUrl: './home.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,18 +29,46 @@ interface FaqItem {
     class: 'block',
   },
 })
-export class Home {
-  protected readonly products = signal(MOCK_PRODUCTS);
+export class Home implements OnInit {
+  private productsService = inject(ProductsService);
+
+  // Data signals
+  protected readonly products = signal<IProduct[]>([]);
+  protected isLoading = signal<boolean>(true);
+  protected error = signal<string | null>(null);
+
   protected readonly newProducts = computed(() =>
     this.products()
-      .filter((p) => (p as any).isNew)
+      .filter((p) => p.isNew)
       .slice(0, 4)
   );
+
   protected readonly bestSellers = computed(() =>
     this.products()
-      .filter((p) => (p as any).isBestSeller)
+      .filter((p) => p.isBestSeller)
       .slice(0, 4)
   );
+
+  ngOnInit(): void {
+    this.fetchProducts();
+  }
+
+  private fetchProducts(): void {
+    this.isLoading.set(true);
+    this.error.set(null);
+
+    this.productsService.getProducts().subscribe({
+      next: (products) => {
+        this.products.set(products);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error fetching products:', err);
+        this.error.set('Failed to load products. Please try again later.');
+        this.isLoading.set(false);
+      },
+    });
+  }
 
   protected readonly faqItems = signal<FaqItem[]>([
     {
@@ -87,6 +123,15 @@ export class Home {
     },
   ]);
 
+  protected formatEGYPrice(price: number): string {
+    return new Intl.NumberFormat('EG', {
+      style: 'currency',
+      currency: 'EGP',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(price);
+  }
+
   protected addToCart(product: any) {
     alert(`Added to cart: ${product.name}`);
   }
@@ -94,9 +139,9 @@ export class Home {
   protected toggleFaq(event: Event) {
     const button = event.currentTarget as HTMLElement;
     const faqContent = button.nextElementSibling as HTMLElement | null;
-    
+
     if (!faqContent) return; // Guard against null element
-    
+
     const wasActive = faqContent.style.maxHeight !== '0px' && faqContent.style.maxHeight !== '';
 
     // Close all FAQs

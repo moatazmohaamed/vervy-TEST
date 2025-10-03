@@ -5,16 +5,96 @@
 
   <div class="section-divider"></div>
 
-  <!-- New Releases Section -->
+  <!-- New Arrivals Section -->
   <section class="section bg-white" aria-labelledby="new-heading">
     <div class="container-custom">
       <div class="section-title">
-        <h2 id="new-heading" class="h2 text-gradient" style="content-visibility: auto;">New Releases</h2>
+        <h2 id="new-heading" class="h2 text-gradient" style="content-visibility: auto;">New Arrivals</h2>
         <div class="w-20 h-1 bg-accent mt-2"></div>
       </div>
-      <div class="grid-products">
-        <app-product-card *ngFor="let p of newProducts()" [product]="p" (addToCart)="addToCart($event)" />
+
+      <!-- Loading State -->
+      @if (isLoading()) {
+      <div class="flex justify-center items-center py-16">
+        <div class="animate-pulse flex flex-col items-center">
+          <div class="w-12 h-12 rounded-full bg-[#FFB6C1]/30"></div>
+          <p class="mt-4 text-[#7A6E6E]">Loading products...</p>
+        </div>
       </div>
+      }
+
+      <!-- Error State -->
+      @if (error() && !isLoading()) {
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg my-6">
+        <p class="flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clip-rule="evenodd"></path>
+          </svg>
+          {{ error() }}
+        </p>
+      </div>
+      }
+
+      <!-- Products Grid -->
+      @if (!isLoading() && !error() && newProducts().length > 0) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+        @for (product of newProducts(); track product.id) {
+        <div
+          class="bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group">
+          <!-- Product Image -->
+          <div class="relative h-64 overflow-hidden">
+            <a routerLink="/products/{{product.id}}">
+              <img [src]="product.productImg" [alt]="product.name"
+                class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110">
+            </a>
+
+            <!-- New Badge -->
+            <span
+              class="absolute top-3 right-3 bg-[#FFB6C1] text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm">New</span>
+
+          </div>
+
+          <!-- Product Info -->
+          <div class="p-5">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="font-serif text-lg font-medium text-[#7A6E6E] hover:text-[#FFB6C1] transition-colors">{{
+                product.name }}</h3>
+              <span class="font-medium text-[#7A6E6E] bg-[#FFF6F8] px-3 py-1 rounded-full">{{
+                formatEGYPrice(product.price) }}</span>
+            </div>
+
+            <p class="text-sm text-[#7A6E6E] mb-4 line-clamp-2 leading-relaxed">{{ product.description }}</p>
+
+            <div class="flex justify-between items-center mt-auto">
+
+              <span class="text-xs bg-[#FFF6F8] text-[#7A6E6E] px-3 py-1.5 rounded-full font-medium">{{ product.category
+                }}</span>
+
+              <div>
+                <button (click)="addToCart(product)"
+                  class="bg-[#FFDDE6] hover:bg-[#FFB6C1] text-[#7A6E6E] font-medium py-2.5 px-5 rounded-full transition-all hover:shadow-md transform hover:-translate-y-0.5">
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+
+      <!-- Empty State -->
+      @if (!isLoading() && !error() && newProducts().length === 0) {
+      <div class="text-center py-12">
+        <p class="text-xl text-[#7A6E6E]">No new arrivals available at the moment.</p>
+        <a routerLink="/products"
+          class="mt-4 inline-block bg-[#FFDDE6] hover:bg-[#FFB6C1] text-[#7A6E6E] font-medium py-2 px-6 rounded-full transition-colors">
+          Browse All Products
+        </a>
+      </div>
+      }
     </div>
   </section>
 
@@ -27,9 +107,88 @@
         <h2 id="best-heading" class="h2 text-gradient">Best Sellers</h2>
         <div class="w-20 h-1 bg-accent mt-2"></div>
       </div>
-      <div class="grid-products">
-        <app-product-card *ngFor="let p of bestSellers()" [product]="p" (addToCart)="addToCart($event)" />
+
+      <!-- Loading State -->
+      @if (isLoading()) {
+      <div class="flex justify-center items-center py-16">
+        <div class="animate-pulse flex flex-col items-center">
+          <div class="w-12 h-12 rounded-full bg-[#FFB6C1]/30"></div>
+          <p class="mt-4 text-[#7A6E6E]">Loading products...</p>
+        </div>
       </div>
+      }
+
+      <!-- Error State -->
+      @if (error() && !isLoading()) {
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg my-6">
+        <p class="flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clip-rule="evenodd"></path>
+          </svg>
+          {{ error() }}
+        </p>
+      </div>
+      }
+
+      <!-- Products Grid -->
+      @if (!isLoading() && !error() && bestSellers().length > 0) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+        @for (product of bestSellers(); track product.id) {
+        <div
+          class="bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-lg group">
+          <!-- Product Image -->
+          <div class="relative h-64 overflow-hidden">
+            <a routerLink="/products/{{product.id}}">
+              <img [src]="product.productImg" [alt]="product.name"
+                class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110">
+            </a>
+
+            <!-- Best Seller Badge -->
+            <span
+              class="absolute top-3 right-3 bg-[#FFB6C1] text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm">Best
+              Seller</span>
+          </div>
+
+          <!-- Product Info -->
+          <div class="p-5 flex flex-col flex-grow">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="font-serif !text-md font-medium text-[#7A6E6E] hover:text-[#FFB6C1] transition-colors h-14 overflow-hidden">{{ product.name}}</h3>
+              <span class="font-medium text-[#7A6E6E] bg-[#FFF6F8] px-3 py-1 rounded-full whitespace-nowrap ml-2">{{ formatEGYPrice(product.price) }}</span>
+            </div>
+
+            <p class="text-sm text-[#7A6E6E] mb-4 line-clamp-2 leading-relaxed flex-grow">{{ product.description }}</p>
+
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="text-xs bg-[#FFF6F8] text-[#7A6E6E] px-3 py-1.5 rounded-full font-medium">{{ product.category }}</span>
+            </div>
+
+            <div class="flex justify-between items-center mt-auto">
+              <a routerLink="/products/{{product.id}}"
+                class="text-sm text-[#FFB6C1] hover:text-[#E8DAFF] hover:underline transition-colors font-medium">View
+                Details →</a>
+              <button (click)="addToCart(product)"
+                class="bg-[#FFDDE6] hover:bg-[#FFB6C1] text-[#7A6E6E] font-medium py-2.5 px-5 rounded-full transition-all hover:shadow-md transform hover:-translate-y-0.5">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+
+      <!-- Empty State -->
+      @if (!isLoading() && !error() && bestSellers().length === 0) {
+      <div class="text-center py-12">
+        <p class="text-xl text-[#7A6E6E]">No best sellers available at the moment.</p>
+        <a routerLink="/products"
+          class="mt-4 inline-block bg-[#FFDDE6] hover:bg-[#FFB6C1] text-[#7A6E6E] font-medium py-2 px-6 rounded-full transition-colors">
+          Browse All Products
+        </a>
+      </div>
+      }
     </div>
   </section>
 
