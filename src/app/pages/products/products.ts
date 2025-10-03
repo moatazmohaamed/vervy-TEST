@@ -11,6 +11,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { IProduct } from '../../shared/interfaces/IProducts';
 import { ProductsService } from '../../core/services/products/products-service';
+import { CartService } from '../../shared/services/cart.service';
+import { ToastService } from '../../shared/services/toast.service';
 
 @Component({
   selector: 'app-products',
@@ -135,9 +137,20 @@ export class Products implements OnInit {
     }).format(price);
   }
 
+  // Inject services
+  private cartService = inject(CartService);
+  private toastService = inject(ToastService);
+
   addToCart(product: IProduct): void {
-    alert('Added to cart: ' + product.name);
-    // This would be connected to a cart service in a real implementation
+    this.cartService.addToCart(product, 1).subscribe({
+      next: () => {
+        this.toastService.showToast(`Added ${product.name} to cart`, 'success');
+      },
+      error: (error) => {
+        console.error('Error adding to cart:', error);
+        this.toastService.showToast('Failed to add item to cart', 'error');
+      }
+    });
   }
   addToWishlist(product: IProduct): void {
     alert('Added to wishlist: ' + product.name);

@@ -14,9 +14,14 @@ export class Allorders {
 
   ngOnInit() {
     this.orderNumber.set('ORD-' + Math.floor(100000 + Math.random() * 900000));
+    // Clear the cart immediately when user clicks Place Order
   }
 
   formatPrice(price: number): string {
     return price.toFixed(2);
+  }
+
+  ngOnDestroy(): void {
+    this.cartService.clearCart().subscribe();
   }
 }

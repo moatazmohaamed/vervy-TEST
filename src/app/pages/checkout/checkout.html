@@ -146,15 +146,11 @@
             <div class="border-t border-gray-200 pt-4 space-y-2">
               <div class="flex justify-between">
                 <span>Subtotal</span>
-                <span>${{ formatPrice(cartService.subtotal()) }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span>Tax</span>
-                <span>${{ formatPrice(cartService.tax()) }}</span>
+                <span>EGP{{ formatPrice(cartService.subtotal()) }}</span>
               </div>
               <div class="flex justify-between font-semibold text-lg">
                 <span>Total</span>
-                <span>${{ formatPrice(cartService.total()) }}</span>
+                <span>EGP{{ formatPrice(cartService.total()) }}</span>
               </div>
             </div>
 

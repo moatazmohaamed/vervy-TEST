@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, signal, OnDestroy } from '@angular/
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SearchInputComponent } from '../search-input/search-input';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,9 +22,10 @@ export class Navbar implements OnDestroy {
   protected readonly selectedCategory = signal<string | null>(null);
   protected readonly isSearchModalOpen = signal(false);
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public cartService: CartService) {
     // Initialize smooth scrolling behavior
     this.initSmoothScrolling();
+    this.cartService.initializeCart().subscribe();
   }
 
   protected toggleMenu() {

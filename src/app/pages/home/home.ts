@@ -12,6 +12,8 @@ import { ProductCardComponent } from '../../shared/components/product-card/produ
 import { CarouselComponent } from '../../shared/components/carousel/carousel';
 import { ProductsService } from '../../core/services/products/products-service';
 import { IProduct } from '../../shared/interfaces/IProducts';
+import { CartService } from '../../shared/services/cart.service';
+import { ToastService } from '../../shared/services/toast.service';
 
 interface FaqItem {
   question: string;
@@ -31,6 +33,8 @@ interface FaqItem {
 })
 export class Home implements OnInit {
   private productsService = inject(ProductsService);
+  private cartService = inject(CartService);
+  private toastService = inject(ToastService);
 
   // Data signals
   protected readonly products = signal<IProduct[]>([]);
@@ -132,8 +136,16 @@ export class Home implements OnInit {
     }).format(price);
   }
 
-  protected addToCart(product: any) {
-    alert(`Added to cart: ${product.name}`);
+  protected addToCart(product: IProduct) {
+    this.cartService.addToCart(product, 1).subscribe({
+      next: () => {
+        this.toastService.showToast(`Added ${product.name} to cart`, 'success');
+      },
+      error: (error) => {
+        console.error('Error adding to cart:', error);
+        this.toastService.showToast('Failed to add item to cart', 'error');
+      }
+    });
   }
 
   protected toggleFaq(event: Event) {

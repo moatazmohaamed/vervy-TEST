@@ -6,6 +6,7 @@ import { WishlistService } from '../../core/services/wishlist/wishlist.service';
 import { IProduct } from '../../shared/interfaces/IProducts';
 import { MOCK_PRODUCTS } from '../../shared/data/mock-products';
 import { ProductsService } from '../../core/services/products/products-service';
+import { ToastService } from '../../shared/services/toast.service';
 
 @Component({
   selector: 'app-details',
@@ -20,6 +21,7 @@ export class Details implements OnInit {
   private cartService = inject(CartService);
   private wishlistService = inject(WishlistService);
   private productsService = inject(ProductsService);
+  private toastService = inject(ToastService);
 
   // Product data
   product = signal<IProduct | null>(null);
@@ -118,8 +120,15 @@ export class Details implements OnInit {
   addToCart(): void {
     const product = this.product();
     if (product) {
-      this.cartService.addToCart(product, this.quantity());
-      alert(`${product.name} added to cart!`);
+      this.cartService.addToCart(product, this.quantity()).subscribe({
+        next: () => {
+          this.toastService.showToast(`Added ${product.name} to cart`, 'success');
+        },
+        error: (error) => {
+          console.error('Error adding to cart:', error);
+          this.toastService.showToast('Failed to add item to cart', 'error');
+        }
+      });
     }
   }
 

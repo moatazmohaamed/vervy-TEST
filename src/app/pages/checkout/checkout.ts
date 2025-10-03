@@ -32,9 +32,6 @@ export class Checkout {
       // Generate a random order number
       const randomOrderNumber = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
       this.router.navigate(['/allorders']);
-
-      // Clear the cart
-      this.cartService.clearCart();
     } else {
       // Mark all fields as touched to trigger validation messages
       Object.keys(this.checkoutForm.controls).forEach((key) => {

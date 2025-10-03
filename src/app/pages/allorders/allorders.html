@@ -45,24 +45,23 @@
     <div class="border-t border-gray-200 pt-6 mb-6">
       <h3 class="text-lg font-semibold mb-4">Order Summary</h3>
       <div class="space-y-4">
-        <div *ngFor="let item of cartService.items()" class="flex justify-between">
+        @for (item of cartService.items(); track item.product.id) {
+        <div class="flex justify-between">
           <span>{{ item.product.name }} × {{ item.quantity }}</span>
-          <span>${{ formatPrice(item.product.price * item.quantity) }}</span>
+          <span>EGP{{ formatPrice(item.product.price * item.quantity) }}</span>
         </div>
+        }
+
       </div>
 
       <div class="border-t border-gray-200 mt-4 pt-4">
         <div class="flex justify-between mb-2">
           <span>Subtotal</span>
-          <span>${{ formatPrice(cartService.subtotal()) }}</span>
-        </div>
-        <div class="flex justify-between mb-2">
-          <span>Delivery</span>
-          <span>${{ formatPrice(cartService.tax()) }}</span>
+          <span>EGP{{ formatPrice(cartService.subtotal()) }}</span>
         </div>
         <div class="flex justify-between font-semibold">
           <span>Total</span>
-          <span>${{ formatPrice(cartService.total()) }}</span>
+          <span>EGP{{ formatPrice(cartService.total()) }}</span>
         </div>
         <div class="flex justify-between mt-2 text-success">
           <span>Payment Method</span>
