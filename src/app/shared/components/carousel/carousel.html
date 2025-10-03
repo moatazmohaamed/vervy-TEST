@@ -38,7 +38,7 @@
       <div class="w-full max-w-md overflow-hidden rounded-2xl shadow-xl">
         <!-- Main Image -->
         <div class="relative aspect-[4/3] md:aspect-[4/3] overflow-hidden">
-          <img [src]="heroImages[currentImageIndex()].path" alt="Vervy product showcase"
+          <img loading="lazy" [src]="heroImages[currentImageIndex()].path" alt="Vervy product showcase"
             class="w-full h-full object-cover transition-opacity duration-500 ease-in-out" [class.opacity-100]="true"
             [class.opacity-0]="false">
 
@@ -66,7 +66,7 @@
           <button (click)="setCurrentImage(i)" [attr.aria-label]="'View image ' + (i + 1)"
             class="w-15 h-15 rounded-md overflow-hidden focus:outline-none transition-all"
             [class.ring-1]="i === currentImageIndex()" [class.ring-rose-500]="i === currentImageIndex()">
-            <img [src]="image.path" alt="Thumbnail" class="w-full h-full object-cover">
+            <img loading="lazy" [src]="image.path" alt="Thumbnail" class="w-full h-full object-cover">
           </button>
           }
         </div>
