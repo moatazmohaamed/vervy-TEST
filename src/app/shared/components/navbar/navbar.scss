@@ -85,3 +85,73 @@
     min-height: 44px;
   }
 }
+/* Search Modal Styles */
+.search-modal-backdrop {
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.search-modal-content {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ensure modal is above everything */
+.search-modal {
+  z-index: 9999;
+}
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Focus trap for accessibility */
+.search-modal [tabindex="-1"]:focus {
+  outline: none;
+}
+
+/* Enhanced search button styles */
+.nav-icon-btn[aria-label="Search"] {
+  position: relative;
+}
+
+.nav-icon-btn[aria-label="Search"]:hover {
+  background: rgba(var(--color-accent-rgb), 0.1);
+  color: var(--color-accent);
+}
+
+/* Mobile search input container */
+@media (max-width: 768px) {
+  .mobile-search-container {
+    padding: 0.5rem 0;
+  }
+}
+
+/* Responsive modal sizing */
+@media (max-width: 640px) {
+  .search-modal-content {
+    margin: 1rem;
+    margin-top: 2rem;
+    max-width: calc(100vw - 2rem);
+  }
+}

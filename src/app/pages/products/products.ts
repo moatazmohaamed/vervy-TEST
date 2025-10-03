@@ -27,7 +27,7 @@ export class Products implements OnInit {
   private route = inject(ActivatedRoute);
 
   ngOnInit(): void {
-    // Check for category in URL query params
+    // Check for query params (category and search)
     this.route.queryParams.subscribe((params) => {
       if (params['category']) {
         const category = params['category'];
@@ -39,12 +39,17 @@ export class Products implements OnInit {
           this.selectedCategory.set(category);
         }
       }
+
+      if (params['search']) {
+        this.searchQuery.set(params['search']);
+        // Reset category filter when searching
+        this.selectedCategory.set('All');
+      }
     });
 
     // Fetch products from Supabase
     this.productService.getProducts().subscribe({
       next: (products: IProduct[]) => {
-        console.log('Products fetched from Supabase:', products);
         this.productsSignal.set(products);
       },
       error: (error) => {
@@ -57,13 +62,25 @@ export class Products implements OnInit {
   categories = signal<string[]>(['All', 'Lip Gloss', 'Lip Balm', 'Accessories']);
   selectedCategory = signal<string>('All');
   sortOption = signal<string>('default');
+  searchQuery = signal<string>('');
 
   // Computed products based on filters
   filteredProducts = computed(() => {
     let filtered = [...this.productsSignal()];
 
-    // Filter by category
-    if (this.selectedCategory() !== 'All') {
+    // Filter by search query first
+    if (this.searchQuery()) {
+      const query = this.searchQuery().toLowerCase();
+      filtered = filtered.filter((p) =>
+        p.name.toLowerCase().includes(query) ||
+        p.description.toLowerCase().includes(query) ||
+        p.category.toLowerCase().includes(query) ||
+        p.type.toLowerCase().includes(query)
+      );
+    }
+
+    // Filter by category (only if not searching)
+    if (this.selectedCategory() !== 'All' && !this.searchQuery()) {
       filtered = filtered.filter((p) => p.category === this.selectedCategory());
     }
 
@@ -91,6 +108,12 @@ export class Products implements OnInit {
   // Filter methods
   updateCategory(category: string): void {
     this.selectedCategory.set(category);
+    // Clear search when selecting category
+    this.searchQuery.set('');
+  }
+
+  clearSearch(): void {
+    this.searchQuery.set('');
   }
 
   updatePriceRange(event: Event): void {

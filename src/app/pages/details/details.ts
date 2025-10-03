@@ -51,16 +51,13 @@ export class Details implements OnInit {
       next: (product) => {
         if (product) {
           this.product.set(product);
-          // Set product images - use product images array if available, otherwise use the main image
           this.productImages.set(
             product.images && product.images.length > 0
               ? [product.productImg, ...product.images]
               : [
-                  product.productImg,
-                  '/assets/hero section/Picture2.jpg',
-                  '/assets/hero section/Picture3.jpg',
-                  '/assets/hero section/Picture4.jpg',
-                ]
+                product.productImg,
+
+              ]
           );
         } else {
           this.error.set('Product not found');
@@ -71,16 +68,11 @@ export class Details implements OnInit {
         console.error('Error fetching product:', err);
         this.error.set('Failed to load product details. Please try again later.');
         this.isLoading.set(false);
-
-        // Fallback to mock data in case of error
         const foundProduct = MOCK_PRODUCTS.find((p) => p.id === productId);
         if (foundProduct) {
           this.product.set({ ...foundProduct, isNew: foundProduct.isNew ?? false });
           this.productImages.set([
             foundProduct.productImg,
-            '/assets/hero section/Picture2.jpg',
-            '/assets/hero section/Picture3.jpg',
-            '/assets/hero section/Picture4.jpg',
           ]);
         }
       },
