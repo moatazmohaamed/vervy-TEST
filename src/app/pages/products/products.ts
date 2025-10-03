@@ -1,6 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { IProduct } from '../../shared/interfaces/IProducts';
 import { ProductsService } from '../../core/services/products/products-service';
@@ -13,12 +20,27 @@ import { ProductsService } from '../../core/services/products/products-service';
   styleUrl: './products.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Products {
+export class Products implements OnInit {
   // Product data
   private productsSignal = signal<IProduct[]>([]);
   productService = inject(ProductsService);
+  private route = inject(ActivatedRoute);
 
   ngOnInit(): void {
+    // Check for category in URL query params
+    this.route.queryParams.subscribe((params) => {
+      if (params['category']) {
+        const category = params['category'];
+        // Check if the category exists in our list
+        if (this.categories().includes(category)) {
+          this.selectedCategory.set(category);
+        } else if (category === 'New Arrivals' || category === 'Best Sellers') {
+          // Handle special categories
+          this.selectedCategory.set(category);
+        }
+      }
+    });
+
     // Fetch products from Supabase
     this.productService.getProducts().subscribe({
       next: (products: IProduct[]) => {

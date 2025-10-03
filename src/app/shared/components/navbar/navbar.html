@@ -42,12 +42,13 @@
       </div>
       <div class="drawer-side">
         <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-        <div class="bg-white text-black min-h-full w-80 p-4 flex flex-col gap-6">
+        <div
+          class="bg-white text-black min-h-full w-80 p-4 flex flex-col gap-6 overflow-y-auto overscroll-behavior-y-contain smooth-scroll">
           <!-- Search UI -->
           <div class="mt-2">
             <div class="relative">
               <input type="search" placeholder="Search products..."
-                class="w-full rounded-full border border-black/10 bg-white/70 px-4 py-3 pl-10 text-sm shadow-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/30" />
+                class="w-full rounded-full border border-black/10 bg-white/70 px-4 py-3 pl-10 text-sm shadow-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/30 touch-manipulation" />
               <svg class="absolute left-3 top-1/2 -translate-y-1/2" width="18" height="18" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8" />
@@ -59,35 +60,37 @@
           <!-- Navigation Links -->
           <ul class="menu text-base-content p-0 text-black">
             <li><a routerLink="/" (click)="closeMenu()"
-                class="py-2 text-black font-medium text-lg mb-0 py-2 font-medium text-lg mb-0 py-2">Home</a></li>
+                class="py-3 text-black font-medium text-lg mb-0 touch-manipulation active:bg-accent/10 transition-colors">Home</a>
+            </li>
             <li><a routerLink="/products" (click)="closeMenu()"
-                class="py-2 text-black font-medium text-lg mb-0 py-2 font-medium text-lg mb-0 py-2">Products</a></li>
+                class="py-3 text-black font-medium text-lg mb-0 touch-manipulation active:bg-accent/10 transition-colors">Products</a>
+            </li>
             <li><a routerLink="/about" (click)="closeMenu()"
-                class="py-2 text-black font-medium text-lg mb-0 py-2 font-medium text-lg mb-0 py-2">About</a></li>
+                class="py-3 text-black font-medium text-lg mb-0 touch-manipulation active:bg-accent/10 transition-colors">About</a>
+            </li>
             <li><a routerLink="/contact" (click)="closeMenu()"
-                class="py-2 text-black font-medium text-lg mb-0 py-2 font-medium text-lg mb-0 py-2">Contact</a></li>
+                class="py-3 text-black font-medium text-lg mb-0 touch-manipulation active:bg-accent/10 transition-colors">Contact</a>
+            </li>
             <div>
               <div class="collapse collapse-arrow">
-                <input type="checkbox" class="peer" />
-                <div class="collapse-title font-medium text-lg mb-0 py-2 flex items-center justify-between">
+                <input type="checkbox" class="peer" id="categories-toggle" />
+                <div
+                  class="collapse-title font-medium text-lg mb-0 py-3 flex items-center justify-between touch-manipulation active:bg-accent/10 transition-colors">
                   <span class="mt-2 -ml-[5px]">Categories</span>
                 </div>
-                <div class="collapse-content p-0">
-                  <ul class="menu text-base-content">
-                    <li><a class="py-2 text-black text-base" (click)="closeMenu()">Lip Gloss</a></li>
-                    <li><a class="py-2 text-black text-base" (click)="closeMenu()">Skin Care</a></li>
-                    <li><a class="py-2 text-black text-base" (click)="closeMenu()">Makeup</a></li>
-                    <li><a class="py-2 text-black text-base" (click)="closeMenu()">New Arrivals</a></li>
-                    <li><a class="py-2 text-black text-base" (click)="closeMenu()">Best Sellers</a></li>
+                <div class="collapse-content p-0 transition-all duration-300 ease-in-out">
+                  <ul class="menu text-base-content pl-4">
+                    <li><a class="py-3 text-black text-base touch-manipulation active:bg-accent/10 transition-colors"
+                        (click)="filterByCategory('Lip Gloss')">Lip Gloss</a></li>
+                    <li><a class="py-3 text-black text-base touch-manipulation active:bg-accent/10 transition-colors"
+                        (click)="filterByCategory('Lip Balm')">Lip Balm</a></li>
+                    <li><a class="py-3 text-black text-base touch-manipulation active:bg-accent/10 transition-colors"
+                        (click)="filterByCategory('Accessories')">Accessories</a></li>
                   </ul>
                 </div>
               </div>
-
             </div>
           </ul>
-
-
-
         </div>
       </div>
     </div>

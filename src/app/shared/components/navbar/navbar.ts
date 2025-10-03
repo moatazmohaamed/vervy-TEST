@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +17,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class Navbar {
   protected readonly isMenuOpen = signal(false);
+  protected readonly selectedCategory = signal<string | null>(null);
+
+  constructor(private router: Router) {
+    // Initialize smooth scrolling behavior
+    this.initSmoothScrolling();
+  }
 
   protected toggleMenu() {
     this.isMenuOpen.update((v) => !v);
@@ -29,5 +35,33 @@ export class Navbar {
     if (checkbox) {
       checkbox.checked = false;
     }
+  }
+
+  protected filterByCategory(category: string) {
+    this.selectedCategory.set(category);
+    this.closeMenu();
+    
+    // Navigate to products page with category filter
+    this.router.navigate(['/products'], { 
+      queryParams: { category: category }
+    });
+  }
+
+  private initSmoothScrolling() {
+    // Add smooth scrolling behavior to the sidebar
+    document.addEventListener('DOMContentLoaded', () => {
+      const sidebarContent = document.querySelector('.smooth-scroll');
+      if (sidebarContent) {
+        // Apply smooth scrolling behavior
+        sidebarContent.addEventListener('touchstart', (e) => {
+          // Prevent default only if needed for specific elements
+          if ((e.target as HTMLElement).tagName !== 'INPUT' && 
+              (e.target as HTMLElement).tagName !== 'BUTTON' &&
+              !(e.target as HTMLElement).closest('a')) {
+            e.preventDefault();
+          }
+        }, { passive: false });
+      }
+    });
   }
 }
